@@ -1,8 +1,11 @@
+require('dotenv').config()
 const express = require("express")
 const router = express.Router()
 const Register = require('../../models/register')
 const mongoose = require("mongoose")
 const bcrypt = require("bcryptjs")
+const nodemailer = require("nodemailer")
+// const nodeMailer = require("../../Nodemailer/mailer")
 
 
 
@@ -23,15 +26,41 @@ router.get("/homepage", (req, res) => {
 
 router.post('/signup', async (req, res) => {
     try {
+
         const password = req.body.password;
         const cpassword = req.body.confirm;
         if (password === cpassword) {
+            var transporter = nodemailer.createTransport({
+                service: "gmail",
+                auth: {
+                    user: process.env.EMAIL,
+                    pass: process.env.PASSWORD
+                }
+
+            });
+            var mailOptions = {
+                from: "rgp02071993@gmail.com",
+                to: req.body.email,
+                subject: "sending mail using nodejs",
+                text: `Your userEmail is ${req.body.email} and password is ${req.body.password}`
+
+            }
+            transporter.sendMail(mailOptions, function (error, info) {
+                if (error) {
+                    console.log(error);
+                } else {
+                    console.log("email sent: " + info.response);
+                }
+            });
+
+
             const registerUser = new Register({
                 Username: req.body.Username,
                 email: req.body.email,
                 password: req.body.password,
                 confirm: req.body.confirm,
             })
+
             // implementing hashing of password
 
 
