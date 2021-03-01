@@ -7,6 +7,10 @@ const bcrypt = require("bcryptjs")
 const nodemailer = require("nodemailer")
 // const nodeMailer = require("../../Nodemailer/mailer")
 
+router.get('/about', (req, res) => {
+    res.render("about")
+})
+
 
 
 router.get('/signup', (req, res) => {
