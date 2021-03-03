@@ -29,6 +29,8 @@ app.use(express.urlencoded({ extended: false }))
 const loginroutes = require('./api/routes/logincustom')
 const googleroutes = require('./api/routes/googleroute')
 const facebookroutes = require('./api/routes/facebookroute')
+const adminroutes = require('./api/routes/admin')
+const bookaddroutes = require('./api/routes/addbookroute')
 
 
 
@@ -40,6 +42,10 @@ app.use('/', googleroutes);
 
 // for facebook login
 app.use('/', facebookroutes)
+
+app.use('/', adminroutes)
+
+app.use('/', bookaddroutes)
 
 app.listen(port, () => {
     console.log(`listening to port ${port}`)

@@ -7,7 +7,7 @@ const FB_data = require("../../models/facebook")
 const router = express.Router()
 router.use(passport.initialize())
 router.use(passport.session())
-router.use(session({ secret: "thisissecretkey" }))
+router.use(session({ secret: "thisissecretkey", resave: true, saveUninitialized: true }))
 
 router.get('/facebook', passport.authenticate('facebook', { scope: "email" }))
 
