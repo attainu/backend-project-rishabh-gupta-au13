@@ -31,6 +31,7 @@ const googleroutes = require('./api/routes/googleroute')
 const facebookroutes = require('./api/routes/facebookroute')
 const adminroutes = require('./api/routes/admin')
 const bookaddroutes = require('./api/routes/addbookroute')
+const paymentroutes = require('./api/routes/payment')
 
 
 
@@ -42,10 +43,14 @@ app.use('/', googleroutes);
 
 // for facebook login
 app.use('/', facebookroutes)
-
+// for admin log in 
 app.use('/', adminroutes)
 
+// for admin to add books
 app.use('/', bookaddroutes)
+
+// for payment
+app.use('/', paymentroutes)
 
 app.listen(port, () => {
     console.log(`listening to port ${port}`)

@@ -18,7 +18,7 @@ router.get('/facebook/callback', passport.authenticate('facebook', { failureRedi
     }
 )
 router.get('/failure', (req, res) => {
-    res.stautus(400).send("can not login ")
+    res.status(400).send("can not login ")
 })
 
 
