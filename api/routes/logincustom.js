@@ -39,7 +39,7 @@ router.post('/signup', async (req, res) => {
             res.send("email id already exists")
         }
 
-        if (password === cpassword) {
+        else if (password === cpassword) {
             var transporter = nodemailer.createTransport({
                 service: "gmail",
                 auth: {
@@ -55,13 +55,13 @@ router.post('/signup', async (req, res) => {
                 text: `Your userEmail is ${req.body.email} and password is ${req.body.password}`
 
             }
-            transporter.sendMail(mailOptions, function (error, info) {
+            const G = await (transporter.sendMail(mailOptions, function (error, info) {
                 if (error) {
                     console.log(error);
                 } else {
                     console.log("email sent: " + info.response);
                 }
-            });
+            }));
 
 
             const registerUser = new Register({
