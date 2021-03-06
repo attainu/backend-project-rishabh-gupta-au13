@@ -33,6 +33,12 @@ router.post('/signup', async (req, res) => {
 
         const password = req.body.password;
         const cpassword = req.body.confirm;
+        const email = req.body.email;
+        const useremail = await Register.findOne({ email: email })
+        if (useremail) {
+            res.send("email id already exists")
+        }
+
         if (password === cpassword) {
             var transporter = nodemailer.createTransport({
                 service: "gmail",
@@ -112,6 +118,7 @@ router.post("/login", async (req, res) => {
     }
 
 })
+
 
 
 module.exports = router
