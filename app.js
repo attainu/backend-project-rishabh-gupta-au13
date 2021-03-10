@@ -2,6 +2,7 @@ const express = require("express");
 const mongoose = require("mongoose")
 const bodyParser = require("body-parser")
 const bcrypt = require("bcryptjs")
+const morgan = require('morgan');
 const connectDB = require('./db/conn')
 connectDB()
 const Register = require('./models/register')
@@ -25,6 +26,9 @@ app.use(express.json());
 // to convert form data 
 app.use(express.urlencoded({ extended: false }))
 
+// using morgan
+app.use(morgan('dev'));
+
 // all the authenticaton routes
 const loginroutes = require('./api/routes/logincustom')
 const googleroutes = require('./api/routes/googleroute')
@@ -32,9 +36,13 @@ const facebookroutes = require('./api/routes/facebookroute')
 const adminroutes = require('./api/routes/admin')
 const bookaddroutes = require('./api/routes/addbookroute')
 const paymentroutes = require('./api/routes/payment')
+//admin side api
+const productroutes = require('./api/routes/product')
+
+// customer side api
 
 
-
+// for health check
 // for custom log in
 app.use('/', loginroutes);
 
@@ -51,6 +59,28 @@ app.use('/', bookaddroutes)
 
 // for payment
 app.use('/', paymentroutes)
+
+// for getting list of all product:
+app.use('/', productroutes)
+
+// for getting all the orders made:
+
+
+
+app.use((req, res, next) => {
+    const error = new Error('Not Found');
+    error.status = 404;
+    next(error);
+
+})
+app.use((error, req, res, next) => {
+    res.status(error.status || 500);
+    res.json({
+        error: {
+            message: error.message
+        }
+    })
+})
 
 app.listen(port, () => {
     console.log(`listening to port ${port}`)
